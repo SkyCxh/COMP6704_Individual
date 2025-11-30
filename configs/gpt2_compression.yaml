@@ -1,0 +1,57 @@
+# GPT-2 Compression Configuration (MSE-based Latent Compression)
+
+# Model settings
+model_name: "gpt2"
+num_latent: 6  # This will be overridden by flexible mode (num_latent = num_steps)
+use_projection: false
+use_layernorm: false
+
+# Compression settings
+use_compression: true  # Enable compression loss (MSE)
+compression_weight: 1.0  # Weight for MSE compression loss
+use_teacher_hiddens: false  # true: use teacher hidden states, false: use token embedding averages
+teacher_checkpoint: "/data/project/CoT/latentAnalysis/results/gpt2_vanilla/checkpoint_epoch18.pt"
+freeze_teacher: true  # Freeze teacher model parameters (recommended, only used if use_teacher_hiddens=true)
+freeze_student: false  # Train student model
+
+# Training strategy
+latent_mode: "flexible"  # Only flexible mode is supported for compression
+
+# Data settings
+dataset_format: "AUG"  # Options: "Aug" or "NL"
+train_data: "/data/project/CoT/latentAnalysis/data/gsm8k/Aug/gsm_train.json"
+valid_data: "/data/project/CoT/latentAnalysis/data/gsm8k/Aug/gsm_valid.json"
+test_data: "/data/project/CoT/latentAnalysis/data/gsm8k/Aug/gsm_test.json"
+
+# Training settings
+per_device_batch_size: 16  # Adjust based on GPU memory (dual forward pass)
+learning_rate: 1e-4
+max_epochs: 25
+gradient_accumulation_steps: 4
+warmup_steps: 0
+weight_decay: 0.01
+max_grad_norm: 1.0
+
+# Evaluation settings
+eval_steps: 500
+save_steps: 1000
+logging_steps: 50
+
+# Output settings
+output_dir: "/data/project/CoT/latentAnalysis/results/gpt2_compression_embeddinggt"
+save_total_limit: 25
+
+# Random seed
+seed: 42
+
+# Training type
+training_type: "compression"
+
+# Logging settings
+use_tensorboard: true
+
+# Precision settings
+dtype: "float32"  # Options: "float32", "float16", "bfloat16"
+
+# Resume training settings
+resume_from_checkpoint: null

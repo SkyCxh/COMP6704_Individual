@@ -1,0 +1,56 @@
+# GPT-2 SIM-CoT Configuration (with Step-Level Reconstruction Loss)
+# Train from scratch with both answer loss and reconstruction loss
+
+# Model settings
+model_name: "gpt2"
+num_latent: 6  # Number of latent thought tokens
+use_projection: false
+use_layernorm: false
+
+# SIM-CoT settings
+use_reconstruction: true  # Enable reconstruction loss
+use_auxiliary_gpt2: true  # true=独立GPT2, false=projection layer
+reconstruction_weight: 1.0  # Weight for reconstruction loss
+freeze_base_model: false  # If true, only train auxiliary decoder
+freeze_auxiliary: false  # If true, only train base model
+
+# Training strategy
+load_base_checkpoint: null  # null=从头训练, or path to pretrained base model
+latent_mode: "flexible"  # "fixed" or "flexible"
+
+# Data settings
+dataset_format: "NL"  # Options: "Aug" or "NL"
+train_data: "/data/project/CoT/latentAnalysis/data/gsm8k/NL/gsm8k_train-nl.json"
+valid_data: "/data/project/CoT/latentAnalysis/data/gsm8k/NL/gsm8k_val-nl.json"
+test_data: "/data/project/CoT/latentAnalysis/data/gsm8k/NL/gsm8k_test-nl.json"
+
+# Training settings
+per_device_batch_size: 8
+learning_rate: 1e-4
+max_epochs: 25
+gradient_accumulation_steps: 8
+warmup_steps: 0
+weight_decay: 0.01
+max_grad_norm: 1.0
+
+# Evaluation settings
+eval_steps: 500
+save_steps: 1000
+logging_steps: 50
+
+# Output settings
+output_dir: "/data/project/CoT/latentAnalysis/results/gpt2_simcot"
+save_total_limit: 25
+
+# Random seed
+seed: 42
+
+# Training type
+training_type: "latent"
+
+# Logging settings
+use_tensorboard: true
+
+# Resume training settings
+resume_from_checkpoint: null
+

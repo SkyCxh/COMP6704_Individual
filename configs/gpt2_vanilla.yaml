@@ -1,0 +1,45 @@
+# GPT-2 Vanilla CoT Configuration (Supervise Steps + Answer)
+
+# Model settings
+model_name: "gpt2"
+
+# Data settings
+dataset_format: "NL"  # Options: "Aug" or "NL"
+train_data: "/data/project/CoT/latentAnalysis/data/gsm8k/NL/gsm8k_train-nl.json"
+valid_data: "/data/project/CoT/latentAnalysis/data/gsm8k/NL/gsm8k_val-nl.json"
+test_data: "/data/project/CoT/latentAnalysis/data/gsm8k/NL/gsm8k_test-nl.json"
+
+# Training settings
+# batch_size: 64
+per_device_batch_size: 32
+gradient_accumulation_steps: 4
+learning_rate: 1e-4
+max_epochs: 25
+warmup_steps: 0
+weight_decay: 0.01
+max_grad_norm: 1.0
+
+# Evaluation settings
+eval_steps: 500
+save_steps: 1000
+logging_steps: 50
+
+# Output settings
+output_dir: "/data/project/CoT/latentAnalysis/results/gpt2_vanilla_NL"
+save_total_limit: 25
+
+# Random seed
+seed: 42
+
+# Training type
+training_type: "vanilla"  # vanilla CoT
+
+# Logging settings
+use_tensorboard: true  # Enable TensorBoard logging
+
+# Precision settings
+dtype: "float32"  # Options: "float32", "float16", "bfloat16"
+
+# Resume training settings
+resume_from_checkpoint: null  # Path to checkpoint file to resume from (e.g., "/path/to/best_model.pt"), or null to start fresh
+

@@ -1,0 +1,51 @@
+# GPT-2 Baseline Configuration for Latent CoT Training
+
+# Model settings
+model_name: "gpt2"
+num_latent: 6
+use_projection: false
+use_layernorm: false
+
+# Latent mode setting
+latent_mode: "fixed"  # Options: "fixed" or "flexible"
+# - "fixed": Use num_latent for all samples
+# - "flexible": Use len(steps) from ground truth for each sample
+
+# Data settings
+dataset_format: "Aug"  # Options: "Aug" or "NL"
+train_data: "/data/project/CoT/latentAnalysis/data/gsm8k/Aug/gsm_train.json"
+valid_data: "/data/project/CoT/latentAnalysis/data/gsm8k/Aug/gsm_valid.json"
+test_data: "/data/project/CoT/latentAnalysis/data/gsm8k/Aug/gsm_test.json"
+
+# Training settings
+# batch_size: 64
+per_device_batch_size: 32
+learning_rate: 1e-4
+max_epochs: 25
+gradient_accumulation_steps: 2
+warmup_steps: 0
+weight_decay: 0.01
+max_grad_norm: 1.0
+
+# Evaluation settings
+eval_steps: 500
+save_steps: 1000
+logging_steps: 50
+
+# Output settings
+output_dir: "/data/project/CoT/latentAnalysis/results/gpt2_latent"
+save_total_limit: 25
+
+# Random seed
+seed: 42
+
+# Training type
+training_type: "latent"  # latent CoT
+
+# Logging settings
+use_tensorboard: true  # Enable TensorBoard logging
+
+
+# Resume training settings
+resume_from_checkpoint: null  # Path to checkpoint file to resume from (e.g., "/path/to/best_model.pt"), or null to start fresh
+

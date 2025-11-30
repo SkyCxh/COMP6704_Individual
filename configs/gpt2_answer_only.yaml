@@ -1,0 +1,42 @@
+# GPT-2 Answer-Only Configuration
+# Direct question → answer mapping (NO STEPS in input/output)
+
+# Model settings
+model_name: "gpt2"
+
+# Data settings
+dataset_format: "Aug"  # Options: "Aug" or "NL"
+train_data: "/data/project/CoT/latentAnalysis/data/gsm8k/Aug/gsm_train.json"
+valid_data: "/data/project/CoT/latentAnalysis/data/gsm8k/Aug/gsm_valid.json"
+test_data: "/data/project/CoT/latentAnalysis/data/gsm8k/Aug/gsm_test.json"
+
+# Training settings
+per_device_batch_size: 32
+learning_rate: 1e-4
+max_epochs: 25
+gradient_accumulation_steps: 2
+warmup_steps: 0
+weight_decay: 0.01
+max_grad_norm: 1.0
+
+# Evaluation settings
+eval_steps: 500
+save_steps: 1000
+logging_steps: 50
+
+# Output settings
+output_dir: "/data/project/CoT/latentAnalysis/results/gpt2_answer_only"
+save_total_limit: 25
+
+# Random seed
+seed: 42
+
+# Training type
+training_type: "answer_only"  # New type for answer-only training
+
+# Logging settings
+use_tensorboard: true
+
+# Resume training settings
+resume_from_checkpoint: null
+

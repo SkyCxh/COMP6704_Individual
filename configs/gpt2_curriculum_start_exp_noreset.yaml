@@ -1,0 +1,71 @@
+# GPT-2 Curriculum Training Configuration
+# Progressive latent token increase across training stages
+
+# Model settings
+model_name: "gpt2"
+max_num_latent: 6  # Maximum number of latent tokens
+use_projection: false
+use_layernorm: false
+
+# Curriculum settings
+epochs_per_stage: 3  # Number of epochs per stage
+c_thought: 1  # Number of latent tokens per reasoning step (CoCoNut uses 2)
+reset_optimizer_on_stage_change: false  # Reset optimizer when stage changes (every 3 epochs)
+reset_optimizer_every_epoch: false  # If true, reset optimizer every epoch (CoCoNut style)
+# Total stages = max_num_latent (0-5)
+# Total epochs = max_num_latent * epochs_per_stage = 6 * 3 = 18
+# With c_thought=1:
+#   Stage 0 (epochs 0-2):  1 latent token  (1 × c_thought)
+#   Stage 1 (epochs 3-5):  2 latent tokens (2 × c_thought)
+#   Stage 2 (epochs 6-8):  3 latent tokens (3 × c_thought)
+#   Stage 3 (epochs 9-11): 4 latent tokens (4 × c_thought)
+#   Stage 4 (epochs 12-14): 5 latent tokens (5 × c_thought)
+#   Stage 5 (epochs 15-17): 6 latent tokens (6 × c_thought)
+
+# Data settings
+dataset_format: "Aug"  # Options: "Aug" or "NL"
+train_data: "/data/project/CoT/latentAnalysis/data/gsm8k/Aug/gsm_train.json"
+valid_data: "/data/project/CoT/latentAnalysis/data/gsm8k/Aug/gsm_valid.json"
+test_data: "/data/project/CoT/latentAnalysis/data/gsm8k/Aug/gsm_test.json"
+
+# Training settings
+per_device_batch_size: 32
+learning_rate: 1e-4
+max_epochs: 25  # 6 stages × 3 epochs
+gradient_accumulation_steps: 2
+warmup_steps: 0
+weight_decay: 0.01
+max_grad_norm: 1.0
+
+# Evaluation settings
+eval_steps: 500
+save_steps: 1000
+logging_steps: 50
+
+# Output settings
+output_dir: "/data/project/CoT/latentAnalysis/results/gpt2_curriculum_exp_noreset25_grad"
+save_total_limit: 25
+
+# Random seed
+seed: 42
+
+# Training type
+training_type: "curriculum"
+
+# Logging settings
+use_tensorboard: true
+
+# Gradient tracking settings (optional, set to false to disable)
+track_latent_gradients: true  
+gradient_log_freq: 10  # Log to TensorBoard every N steps
+gradient_csv_save_freq: 100  # Save detailed gradient stats to CSV every N steps
+track_context_positions: 3  # Reserved parameter (not currently used)
+
+# Precision settings
+dtype: "float32"  # Options: "float32", "float16", "bfloat16"
+
+# Resume training settings
+resume_from_checkpoint: null
+# Load base checkpoint (for initializing from a vanilla/other trained model)
+load_base_checkpoint: "/data/project/CoT/latentAnalysis/results/gpt2_vanilla/checkpoint_epoch11.pt"
+

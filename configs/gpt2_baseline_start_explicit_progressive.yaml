@@ -1,0 +1,72 @@
+# GPT-2 Progressive Baseline Configuration
+# Progressive latent increase like curriculum, but ALWAYS supervise answer only (no intermediate steps)
+# This is equivalent to curriculum training in full compression stage at all stages
+
+# Model settings
+model_name: "gpt2"
+max_num_latent: 6  # Maximum number of latent tokens (will increase progressively)
+use_projection: false
+use_layernorm: false
+
+# Curriculum-style progressive settings
+epochs_per_stage: 3  # Number of epochs per stage
+c_thought: 1  # Number of latent tokens per reasoning step
+# Note: reset_optimizer_on_stage_change is controlled by curriculum dataset creation
+reset_optimizer_on_stage_change: true  # Reset optimizer when stage changes
+reset_optimizer_every_epoch: false  # If true, reset optimizer every epoch
+
+# Training type: use curriculum for progressive latent increase
+# But the dataset will be configured to ALWAYS use answer-only supervision
+training_type: "curriculum"
+
+# Data settings
+dataset_format: "Aug"  # Options: "Aug" or "NL"
+train_data: "/data/project/CoT/latentAnalysis/data/gsm8k/Aug/gsm_train.json"
+valid_data: "/data/project/CoT/latentAnalysis/data/gsm8k/Aug/gsm_valid.json"
+test_data: "/data/project/CoT/latentAnalysis/data/gsm8k/Aug/gsm_test.json"
+
+# Training settings
+per_device_batch_size: 32
+learning_rate: 1e-4
+max_epochs: 25  # Will train with progressive latent increase
+gradient_accumulation_steps: 2
+warmup_steps: 0
+weight_decay: 0.01
+max_grad_norm: 1.0
+
+# Evaluation settings
+eval_steps: 500
+save_steps: 1000
+logging_steps: 50
+
+# Output settings
+output_dir: "/data/project/CoT/latentAnalysis/results/gpt2_baseline_progressive"
+save_total_limit: 25
+
+# Random seed
+seed: 42
+
+# Logging settings
+use_tensorboard: true  # Enable TensorBoard logging
+
+# Gradient tracking settings (optional, set to false to disable)
+track_latent_gradients: true  
+gradient_log_freq: 10  # Log to TensorBoard every N steps
+gradient_csv_save_freq: 100  # Save detailed gradient stats to CSV every N steps
+track_context_positions: 3  # Reserved parameter (not currently used)
+
+# Resume training settings
+resume_from_checkpoint: null  # Path to checkpoint file to resume from (e.g., "/path/to/best_model.pt"), or null to start fresh
+
+# Load base checkpoint (for initializing from a vanilla/other trained model)
+load_base_checkpoint: "/data/project/CoT/latentAnalysis/results/gpt2_vanilla/checkpoint_epoch11.pt"
+
+load_checkpoint_type: base
+
+# Precision settings
+dtype: "float32"  # Options: "float32", "float16", "bfloat16"
+
+# IMPORTANT: Force answer-only supervision mode
+# This ensures that even in early stages, we only supervise the answer
+# This is done by setting a very large value for current_num_latents in the dataset
+force_answer_only: true  # Custom flag to force answer-only mode at all stages
