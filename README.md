@@ -2,7 +2,7 @@
 
 This directory contains training and evaluation code for various Chain-of-Thought (CoT) models based on GPT-2, exploring different approaches to reasoning modeling.
 
-## 📁 Directory Structure
+## Directory Structure
 
 ```
 COMP6704_Individual/
@@ -16,20 +16,14 @@ COMP6704_Individual/
 └── README.md      # This document
 ```
 
-## 🚀 Quick Start
-
-### Requirements
-- Python 3.8+
-- PyTorch 2.0+
-- transformers
-- Multi-GPU support (recommended)
+## Quick Start
 
 ### Install Dependencies
 ```bash
 pip install torch transformers pyyaml tqdm tensorboard
 ```
 
-## 📊 Model Types
+## Model Types
 
 This project implements the following model architectures:
 
@@ -85,7 +79,7 @@ bash COMP6704_Individual/bash/eval_latent.sh
 
 ---
 
-### 3. SIM-CoT (Reconstruction Distillation)
+### 3. Reconstruction Distillation
 **Description**: Latent reasoning with Reconstruction loss.
 - **Config File**: `configs/gpt2_simcot.yaml`
 - **Training Script**: `bash/train_gpt2_simcot.sh`
@@ -298,7 +292,7 @@ Curriculum model provides batch evaluation functionality, automatically evaluati
 | `train_vanilla.sh` | Vanilla CoT | Standard chain-of-thought training |
 | `train_gpt2_baseline_startexp.sh` | Baseline | Explicit start token |
 | `train_gpt2_baseline_progressive.sh` | Baseline Progressive | Progressive training |
-| `train_gpt2_simcot.sh` | SIM-CoT | Similarity-based distillation |
+| `train_gpt2_simcot.sh` | Reconstruction | Reconstruction distillation |
 | `train_gpt2_curriculum.sh` | Curriculum | Curriculum learning |
 | `train_gpt2_compression.sh` | Compression | Compression model |
 | `train_gpt2_answer_only.sh` | Answer-Only | Answer-only model |
@@ -309,7 +303,7 @@ Curriculum model provides batch evaluation functionality, automatically evaluati
 |---------|---------|------|
 | `eval_gpt2_vanilla.sh` | Vanilla CoT | Standard model evaluation |
 | `eval_latent.sh` | Baseline | Latent model evaluation |
-| `eval_gpt2_simcot.sh` | SIM-CoT | SIM-CoT evaluation |
+| `eval_gpt2_simcot.sh` | Reconstruction | Reconstruction evaluation |
 | `eval_gpt2_curriculum_batch.sh` | Curriculum | Batch evaluation |
 | `eval_gpt2_compression.sh` | Compression | Compression model evaluation |
 | `eval_gpt2_answer_only.sh` | Answer-Only | Answer-only evaluation |
