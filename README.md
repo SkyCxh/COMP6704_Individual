@@ -187,7 +187,7 @@ bash COMP6704_Individual/bash/eval_gpt2_answer_only.sh
 
 ---
 
-## ⚙️ Configuration File Explanation
+## Configuration File Explanation
 
 Each configuration file contains the following key parameters:
 
@@ -226,7 +226,7 @@ bash COMP6704_Individual/bash/train_gpt2_simcot.sh --config my_config.yaml
 
 ---
 
-## 📈 Training Details
+## Training Details
 
 ### Multi-GPU Training
 All scripts support multi-GPU training by default using PyTorch DDP:
@@ -259,7 +259,7 @@ tensorboard --logdir results/your_experiment/logs
 
 ---
 
-## 🔍 Evaluation Details
+## Evaluation Details
 
 ### Evaluation Metrics
 All model evaluations include the following metrics:
@@ -283,7 +283,7 @@ Curriculum model provides batch evaluation functionality, automatically evaluati
 
 ---
 
-## 📝 Core Script Descriptions
+## Core Script Descriptions
 
 ### Training Scripts
 
@@ -322,7 +322,7 @@ Curriculum model provides batch evaluation functionality, automatically evaluati
 
 ---
 
-## 🏗️ Source Code Structure
+## Source Code Structure
 
 ### `src/data_processing/`
 Data processing module, contains various datasets and data loaders:
@@ -347,7 +347,7 @@ Utility functions module:
 
 ---
 
-## 🎯 Experiment Workflow
+## Experiment Workflow
 
 ### Typical Experiment Pipeline
 
@@ -387,77 +387,6 @@ bash bash/eval_gpt2_compression.sh
 
 ---
 
-## 📋 Frequently Asked Questions
-
-### Q: How to modify GPU configuration?
-A: Edit the corresponding bash script and modify `GPU_IDS` and `NUM_GPUS` parameters:
-```bash
-NUM_GPUS=2
-GPU_IDS="0,2"  # Use GPU 0 and 2
-```
-
-### Q: How to adjust training parameters?
-A: Modify YAML configuration files in the configs directory, or create new configuration files.
-
-### Q: How to resume training after interruption?
-A: Most training scripts support resuming from checkpoint. Set the `resume_from_checkpoint` parameter in the configuration file.
-
-### Q: How to monitor training progress?
-A: Use TensorBoard:
-```bash
-tensorboard --logdir results/
-```
-
-### Q: What to do if out of memory?
-A: You can:
-1. Reduce batch_size
-2. Reduce num_latent_tokens
-3. Use gradient_accumulation_steps
-
----
-
-## 📚 References
-
-### Related Papers
-- **Chain-of-Thought Prompting**: Wei et al., 2022
-- **Latent Reasoning**: Exploring implicit reasoning representations
-- **Curriculum Learning**: Bengio et al., 2009
-
 ### Dataset
 - **GSM8k**: Grade school math word problems dataset
 - Contains approximately 8,000 training problems and 1,000 test problems
-
----
-
-## 🔧 Developer Guide
-
-### Adding a New Model
-1. Implement model class in `src/models/`
-2. Implement corresponding dataset and collator in `src/data_processing/`
-3. Add model support in `scripts/train.py`
-4. Create configuration file and training script
-
-### Adding New Evaluation Metrics
-Add new evaluation functions in `scripts/evaluate.py`.
-
-### Code Style
-- Use Python type hints
-- Follow PEP 8 guidelines
-- Add appropriate docstrings
-
----
-
-## 📞 Support and Contact
-
-For questions or suggestions, please refer to the complete documentation in the project main directory or contact the project maintainer.
-
----
-
-## 📄 License
-
-This project is for academic research purposes only.
-
----
-
-**Last Updated**: November 30, 2025
-
